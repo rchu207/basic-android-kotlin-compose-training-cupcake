@@ -1,13 +1,17 @@
 package com.example.cupcake.test
 
 import androidx.activity.ComponentActivity
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import org.junit.Rule
+import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import com.example.cupcake.CupcakeApp
-import androidx.compose.ui.platform.LocalContext
-import androidx.navigation.compose.ComposeNavigator
+import com.example.cupcake.CupcakeScreen
+import com.example.cupcake.R
 import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 
 class CupcakeScreenNavigationTest {
     @get:Rule
@@ -23,5 +27,16 @@ class CupcakeScreenNavigationTest {
             }
             CupcakeApp(navController = navController)
         }
+    }
+
+    @Test
+    fun cupcakeNavHost_verifyStartDestination() {
+        navController.assertCurrentRouteName(CupcakeScreen.Start.name)
+    }
+
+    @Test
+    fun cupcakeNavHost_verifyBackNavigationNotShownOnStartOrderScreen() {
+        val backText = composeTestRule.activity.getString(R.string.back_button)
+        composeTestRule.onNodeWithContentDescription(backText).assertDoesNotExist()
     }
 }
